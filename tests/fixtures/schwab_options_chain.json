@@ -1,0 +1,200 @@
+{
+  "symbol": "SOFI",
+  "status": "SUCCESS",
+  "underlying": {
+    "symbol": "SOFI",
+    "description": "SoFi Technologies Inc",
+    "change": -0.08,
+    "percentChange": -0.61,
+    "close": 12.95,
+    "quoteTime": 1704412800000,
+    "tradeTime": 1704412800000,
+    "bid": 12.86,
+    "ask": 12.88,
+    "last": 12.87,
+    "mark": 12.87,
+    "markChange": -0.08,
+    "markPercentChange": -0.61,
+    "bidSize": 400,
+    "askSize": 200,
+    "highPrice": 13.15,
+    "lowPrice": 12.62,
+    "openPrice": 12.90,
+    "totalVolume": 22456780,
+    "exchangeName": "NMS",
+    "fiftyTwoWeekHigh": 17.40,
+    "fiftyTwoWeekLow": 6.10,
+    "beta": 1.85,
+    "shortable": true,
+    "volatility": 0.72
+  },
+  "callExpDateMap": {
+    "2024-01-19:5": {
+      "12.0": [
+        {
+          "putCall": "CALL",
+          "symbol": "SOFI_011924C12",
+          "description": "SOFI Jan 19 2024 12 Call",
+          "exchangeName": "OPR",
+          "bid": 1.00,
+          "ask": 1.05,
+          "last": 1.02,
+          "mark": 1.025,
+          "bidSize": 50,
+          "askSize": 30,
+          "totalVolume": 1250,
+          "openInterest": 4500,
+          "volatility": 68.5,
+          "delta": 0.72,
+          "gamma": 0.08,
+          "theta": -0.04,
+          "vega": 0.02,
+          "strikePrice": 12.0,
+          "expirationDate": "2024-01-19"
+        }
+      ],
+      "13.0": [
+        {
+          "putCall": "CALL",
+          "symbol": "SOFI_011924C13",
+          "description": "SOFI Jan 19 2024 13 Call",
+          "exchangeName": "OPR",
+          "bid": 0.38,
+          "ask": 0.42,
+          "last": 0.40,
+          "mark": 0.40,
+          "bidSize": 80,
+          "askSize": 60,
+          "totalVolume": 3400,
+          "openInterest": 8200,
+          "volatility": 72.1,
+          "delta": 0.35,
+          "gamma": 0.12,
+          "theta": -0.05,
+          "vega": 0.03,
+          "strikePrice": 13.0,
+          "expirationDate": "2024-01-19"
+        }
+      ],
+      "14.0": [
+        {
+          "putCall": "CALL",
+          "symbol": "SOFI_011924C14",
+          "description": "SOFI Jan 19 2024 14 Call",
+          "exchangeName": "OPR",
+          "bid": 0.09,
+          "ask": 0.11,
+          "last": 0.10,
+          "mark": 0.10,
+          "bidSize": 120,
+          "askSize": 90,
+          "totalVolume": 1800,
+          "openInterest": 5600,
+          "volatility": 76.8,
+          "delta": 0.10,
+          "gamma": 0.06,
+          "theta": -0.03,
+          "vega": 0.02,
+          "strikePrice": 14.0,
+          "expirationDate": "2024-01-19"
+        }
+      ],
+      "15.0": [
+        {
+          "putCall": "CALL",
+          "symbol": "SOFI_011924C15",
+          "description": "SOFI Jan 19 2024 15 Call",
+          "exchangeName": "OPR",
+          "bid": 0.02,
+          "ask": 0.04,
+          "last": 0.03,
+          "mark": 0.03,
+          "bidSize": 200,
+          "askSize": 150,
+          "totalVolume": 920,
+          "openInterest": 3100,
+          "volatility": 81.2,
+          "delta": 0.03,
+          "gamma": 0.02,
+          "theta": -0.01,
+          "vega": 0.01,
+          "strikePrice": 15.0,
+          "expirationDate": "2024-01-19"
+        }
+      ]
+    }
+  },
+  "putExpDateMap": {
+    "2024-01-19:5": {
+      "12.0": [
+        {
+          "putCall": "PUT",
+          "symbol": "SOFI_011924P12",
+          "description": "SOFI Jan 19 2024 12 Put",
+          "exchangeName": "OPR",
+          "bid": 0.12,
+          "ask": 0.15,
+          "last": 0.13,
+          "mark": 0.135,
+          "bidSize": 60,
+          "askSize": 45,
+          "totalVolume": 2100,
+          "openInterest": 6300,
+          "volatility": 69.2,
+          "delta": -0.28,
+          "gamma": 0.08,
+          "theta": -0.04,
+          "vega": 0.02,
+          "strikePrice": 12.0,
+          "expirationDate": "2024-01-19"
+        }
+      ],
+      "11.0": [
+        {
+          "putCall": "PUT",
+          "symbol": "SOFI_011924P11",
+          "description": "SOFI Jan 19 2024 11 Put",
+          "exchangeName": "OPR",
+          "bid": 0.03,
+          "ask": 0.05,
+          "last": 0.04,
+          "mark": 0.04,
+          "bidSize": 100,
+          "askSize": 80,
+          "totalVolume": 780,
+          "openInterest": 2400,
+          "volatility": 73.5,
+          "delta": -0.08,
+          "gamma": 0.03,
+          "theta": -0.02,
+          "vega": 0.01,
+          "strikePrice": 11.0,
+          "expirationDate": "2024-01-19"
+        }
+      ],
+      "13.0": [
+        {
+          "putCall": "PUT",
+          "symbol": "SOFI_011924P13",
+          "description": "SOFI Jan 19 2024 13 Put",
+          "exchangeName": "OPR",
+          "bid": 0.45,
+          "ask": 0.50,
+          "last": 0.47,
+          "mark": 0.475,
+          "bidSize": 40,
+          "askSize": 35,
+          "totalVolume": 1650,
+          "openInterest": 5800,
+          "volatility": 71.0,
+          "delta": -0.62,
+          "gamma": 0.11,
+          "theta": -0.05,
+          "vega": 0.03,
+          "strikePrice": 13.0,
+          "expirationDate": "2024-01-19"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arconian"
+version = "0.1.0"
+description = "Closed research project: a small-cap information-lag trading system and the tests that ruled out its signal"
+requires-python = ">=3.10"
+dependencies = [
+    # Database
+    "sqlalchemy>=2.0",
+    "alembic>=1.13",
+
+    # Market data
+    "schwab-py>=1.4",
+    "yfinance>=0.2",
+
+    # Social data
+    "praw>=7.7",
+    "requests>=2.31",
+
+    # Scheduling
+    "APScheduler>=3.10",
+
+    # Numerics
+    "numpy>=1.26",
+    "pandas>=2.1",
+    "scipy>=1.11",
+
+    # Config
+    "pyyaml>=6.0",
+    "pytz>=2024.1",
+    "python-dotenv>=1.0",
+
+    # Alerts
+    "python-telegram-bot>=20.0",
+]
+
+[project.optional-dependencies]
+norgate = [
+    "norgatedata>=2.0",
+]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+]
+# scripts/research/ (needs the licensed inputs described in the README)
+research = [
+    "pyarrow>=14",
+    "matplotlib>=3.8",
+    "wrds>=3.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["arconian*", "config*", "data*", "universe*", "signals*", "risk*", "execution*", "journal*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]

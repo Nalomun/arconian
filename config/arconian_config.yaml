@@ -1,0 +1,251 @@
+# Arconian Configuration
+# All secrets (API keys, tokens) belong in .env — never here.
+# Valid ranges and update mechanisms are documented per parameter.
+# Changes to this file are hashed and logged to parameter_history on startup.
+
+# ---------------------------------------------------------------------------
+# 2.1 Universe Parameters
+# ---------------------------------------------------------------------------
+universe:
+  # Market cap bounds (millions USD). Static — change requires manual review.
+  market_cap_min_mm: 500          # valid: 200–1000
+  market_cap_max_mm: 2000         # valid: 1000–5000
+
+  # Liquidity thresholds
+  min_daily_dollar_vol_mm: 5.0    # valid: 1.0–20.0
+  min_midday_dollar_vol_mm: 1.5   # valid: 0.5–5.0; midday = 11am–1pm ET window
+
+  # Spread filter (basis points)
+  max_spread_bps: 40              # valid: 20–100
+
+  # Options requirements
+  min_options_oi: 1500            # valid: 500–5000; total open interest across all strikes
+  min_options_strike_count: 4     # valid: 2–10; distinct strikes with non-zero OI
+
+  # History requirements
+  min_trading_days: 60            # valid: 30–120; minimum to be a CANDIDATE
+  observation_mode_threshold_days: 120  # valid: 60–252; days before ACTIVE status
+
+  # Price delay score threshold for CANDIDATE eligibility
+  delay_score_primary_threshold: 0.3  # valid: 0.1–0.5; Hou-Moskowitz R² threshold
+
+  # Monthly refresh: when to re-run universe screening
+  refresh_day: "first_trading_day_of_month"
+
+  # State machine: days of consecutive filter failure before SUSPENDED
+  suspension_consecutive_fail_days: 5  # valid: 1–20
+
+# ---------------------------------------------------------------------------
+# 2.2 Signal Parameters
+# ---------------------------------------------------------------------------
+signal:
+  # Base weights — must sum to 1.0 (excluding retail_penalty_weight).
+  # Updated by IC-recalibration every ic_recalibration_period_days.
+  weight_volume: 0.30             # valid: 0.05–0.50
+  weight_return: 0.25             # valid: 0.05–0.50
+  weight_options: 0.15            # valid: 0.05–0.25 (nominal; redistributed while options_enabled=false)
+  weight_sector_rs: 0.10          # valid: 0.05–0.30
+  weight_delay: 0.10              # valid: 0.05–0.30
+
+  # Options sub-signal master switch. FALSE until the per-ticker IV-rank /
+  # put-call history store exists (a Phase-2 build). While false the options
+  # composite is left NULL (not a constant 0.5), so its 15% weight is
+  # redistributed across the four working signals by NULL renormalisation.
+  # Do NOT flip true without the history store — see DIAGNOSIS F-4.
+  options_enabled: false
+
+  # Minimum weight a signal can be recalibrated down to (floor prevents zeroing out)
+  weight_floor: 0.05              # valid: 0.01–0.10
+
+  # Retail attention penalty weight (applied post-composite).
+  # 0.10 per whitepaper (was 0.20 — unjustified; reconciled to spec, decision #4).
+  retail_penalty_weight: 0.10     # valid: 0.0–0.40
+
+  # Volume signal: trailing windows (days)
+  volume_windows: [20, 60, 120]
+
+  # Return signal: lookback window (days)
+  return_window: 60               # valid: 20–120
+
+  # Sector RS signal: lookback window (days)
+  sector_rs_window: 60            # valid: 20–120
+
+  # Options signal safeguards
+  options_min_daily_volume: 200   # valid: 50–500; minimum total daily contract volume
+  options_min_trade_sizes: 3      # valid: 2–10; distinct lot sizes in daily options flow
+                                  # NOTE: whitepaper says 4 distinct sizes; spec doc says 3 minimum.
+                                  # TODO: reconcile — using spec doc default (3) with whitepaper intent (4) noted.
+  iv_range_min_pct_points: 5      # valid: 2–10; minimum IV rank range to consider signal meaningful
+
+  # IC recalibration schedule
+  ic_recalibration_period_days: 60    # valid: 30–120
+  ic_decay_threshold: 0.02            # valid: 0.01–0.05; IC below this triggers flag
+  ic_consecutive_periods_for_flag: 2  # valid: 1–4; periods below threshold before alert
+
+  # Earnings exclusion zones (trading days)
+  earnings_exclusion_days_before: 1   # valid: 0–3
+  earnings_exclusion_days_after: 1    # valid: 0–3
+
+  # Corporate action exclusion zones (calendar days)
+  corp_action_secondary_exclusion_days: 5      # valid: 3–10; S-3 secondary offerings
+  corp_action_reverse_split_exclusion_days: 3  # valid: 2–5
+  corp_action_merger_exclusion: "duration_of_deal"
+  corp_action_spac_exclusion_days: 10          # valid: 5–20
+  corp_action_ticker_change_exclusion_days: 5  # valid: 3–10
+
+# ---------------------------------------------------------------------------
+# 2.3 Risk Parameters
+# ---------------------------------------------------------------------------
+risk:
+  # Position sizing — risk per trade as fraction of account equity
+  base_risk_per_trade: 0.01       # valid: 0.005–0.02; used Phase 2+
+  phase1_risk_per_trade: 0.005    # valid: 0.0025–0.01; used Phase 0/1
+
+  # Stop loss sizing
+  atr_stop_multiplier: 1.5        # valid: 1.0–3.0; ATR multiples below entry for stop
+  catalyst_atr_premium: 1.5       # valid: 1.0–2.0; wider stop multiplier if catalyst present
+
+  # Portfolio concentration limits
+  max_position_pct: 0.10          # valid: 0.05–0.20; max single position as % of account
+  max_concurrent_positions: 5     # valid: 3–8
+  max_sector_positions: 2         # valid: 1–3; max positions in same GICS sector
+  max_sector_capital_pct: 0.30    # valid: 0.20–0.50
+  max_correlated_cluster: 3       # valid: 2–5; max positions in correlated cluster
+  correlation_threshold: 0.6      # valid: 0.4–0.8; Pearson threshold for clustering
+  correlation_lookback_days: 60   # valid: 30–120; days for correlation estimation
+
+  # Overnight exposure
+  max_overnight_exposure_pct: 0.60  # valid: 0.30–0.80; max % of account in overnight holds
+
+  # Market regime thresholds (VIX-based)
+  vix_elevated_threshold: 25      # valid: 20–35; above this → reduce position sizes
+  vix_crisis_threshold: 35        # valid: 30–45; above this → halt new positions
+
+  # IWM return thresholds for small-cap regime detection
+  iwm_elevated_10d_return: -0.05  # valid: -0.10 to -0.02; 10d return below this → elevated risk
+  iwm_crisis_20d_return: -0.10    # valid: -0.15 to -0.05; 20d return below this → crisis
+
+  # Circuit breakers
+  consecutive_loss_trigger: 5     # valid: 3–8; consecutive losses → pause new entries
+  drawdown_7pct_position_limit: 3 # valid: 2–4; max positions during 7% drawdown recovery
+  drawdown_7pct_recovery_days: 15 # valid: 10–30; days before limits reset after 7% DD
+  drawdown_12pct_halt: true       # hard halt at 12% drawdown — do not change lightly
+  single_day_loss_halt_pct: 0.03  # valid: 0.02–0.05; single-day loss % that triggers halt
+  single_day_loss_halt_days: 2    # valid: 1–5; days to halt after single-day loss breach
+
+  # Full risk-engine rollout (Tier-3 #18). valid: off | shadow | enforce
+  #   off     — minimal dedup + max_concurrent cap only (current Phase-1 behavior)
+  #   shadow  — also run the full RiskEngine and LOG its accept/reject decisions,
+  #             but do not change which trades open (observe before enforcing)
+  #   enforce — the RiskEngine gates which paper trades open
+  full_engine_mode: "off"   # quoted — YAML treats bare off/on as booleans
+
+# ---------------------------------------------------------------------------
+# 2.4 Execution Parameters
+# ---------------------------------------------------------------------------
+execution:
+  # Safety: set to false only when ready to trade a live account
+  paper_trading: true
+
+  # Phase 1 auto paper trading (no operator review)
+  auto_paper_trade: true            # auto-open paper trades after every scan
+  auto_paper_trade_min_score: 0.70  # minimum composite score to auto-trade
+  account_equity: 26000             # account equity used for Phase 1 position sizing
+
+  # Limit order placement
+  limit_buffer_bps: 5             # valid: 0–20; bps above ask (long) / below bid (short)
+  fill_window_seconds: 300        # valid: 60–600; cancel unfilled limit after this many seconds
+
+  # Partial fill handling
+  partial_fill_min_pct: 0.50      # valid: 0.30–0.80; below this → cancel remainder, skip trade
+  partial_fill_accept_pct: 0.80   # valid: 0.60–0.95; above this → accept partial, proceed
+
+  # Exit strategy
+  tp1_exit_pct: 0.50              # valid: 0.25–0.75; fraction of position to exit at TP1
+  tp1_r_multiple: 2.0             # valid: 1.5–3.0; R-multiple target for TP1
+  trailing_stop_atr_multiple: 1.0 # valid: 0.5–2.0; trailing stop on remainder after TP1
+  time_stop_days: 3               # valid: 2–5; force exit after N trading days regardless
+
+  # Scan schedule (US/Eastern)
+  scan_times_et: ["09:35", "12:00", "15:30"]
+
+  # Tiered scan: top N from Pass 1 get options enrichment in Pass 2
+  pass1_top_n: 40                 # valid: 20–80
+
+# ---------------------------------------------------------------------------
+# 2.5 Cost Model Parameters
+# ---------------------------------------------------------------------------
+cost:
+  # Decomposed round-trip cost estimates (basis points per leg)
+  half_spread_bps: 16             # valid: 10–30; half bid-ask spread × 2 for round trip
+  slippage_bps: 15                # valid: 5–30; market impact / execution slippage
+  adverse_selection_bps: 20       # valid: 10–40; informed-flow premium estimate
+  borrow_cost_bps_default: 50     # valid: 15–100; short borrow cost (per annum → daily)
+
+  # Working round-trip estimates used in trade evaluation
+  working_roundtrip_long_bps: 120   # valid: 60–200; total estimated cost for a long round-trip
+  working_roundtrip_short_bps: 150  # valid: 80–250; total estimated cost for a short round-trip
+
+  # Cost model validation: flag if actuals diverge by more than this from working estimate
+  exceedance_threshold_pct: 0.30  # valid: 0.20–0.50
+  exceedance_rolling_window: 20   # valid: 10–40; trades in rolling window for comparison
+
+# ---------------------------------------------------------------------------
+# 2.6 Tax Parameters
+# ---------------------------------------------------------------------------
+tax:
+  # Account type determines after-tax expectancy calculations
+  account_type: "roth_ira"        # options: "roth_ira", "taxable", "traditional_ira"
+  effective_rate_taxable: 0.50    # valid: 0.30–0.55; combined fed + state short-term CGT
+  effective_rate_roth: 0.00       # always 0.0 for Roth — do not change
+
+# ---------------------------------------------------------------------------
+# 2.7 Dead-Man's Switch Parameters
+# ---------------------------------------------------------------------------
+deadman:
+  # Action mode. "alert_only" (default, correct for Phase 1 paper trading):
+  # escalation stages send CRITICAL alerts but perform NO database mutation —
+  # stops are never widened and trades are never force-closed. In paper mode
+  # there is no broker order to cancel, so stage 2/3 DB writes can only corrupt
+  # the trade record (NULL-P&L force-closes destroyed the 2026-05 dataset).
+  # Set to "full" only in Phase 4+ when guarding live capital with a real broker.
+  action_mode: "alert_only"       # "alert_only" | "full"
+
+  # scan_timeout_minutes MUST exceed the longest legitimate gap between scan
+  # heartbeats. The overnight gap from the 15:30 scan to the next day's 09:35
+  # scan is ~18h; the intraday 09:35->12:00 gap alone is 145 min. The old 60-min
+  # value fired between every scheduled scan. 1200 min (20h) clears the overnight
+  # gap with margin. Trade-off: a genuine mid-session stall is not flagged until
+  # this window elapses — acceptable because the deadman is a whole-system
+  # backstop (each scan already logs its own failures), not a per-scan monitor.
+  scan_timeout_minutes: 1200      # valid: 60–1440 (minutes); 20h default
+  widen_stops_minutes: 10         # valid: 5–20; stage-2 offset from timeout (alert-only by default)
+  force_close_minutes: 30         # valid: 15–60; stage-3 offset from timeout (alert-only by default)
+
+  # Telegram credentials loaded from environment variables — not stored here
+  # Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in .env
+
+# ---------------------------------------------------------------------------
+# 2.8 ML Parameters (Phase 2+)
+# ---------------------------------------------------------------------------
+ml:
+  # Minimum labeled events before training
+  min_events_logistic: 700        # valid: 500–1500; for regularized logistic regression
+  min_events_lightgbm: 8000       # valid: 5000–15000; LightGBM deferred to Year 3+
+
+  # Deployment threshold: only deploy ML overlay if it clears this Sharpe improvement
+  sharpe_improvement_threshold: 0.05  # valid: 0.03–0.10
+
+  # Purged walk-forward CV settings (López de Prado)
+  purge_days: 5                   # valid: 3–10; embargo on either side of test fold
+  embargo_days: 5                 # valid: 3–10
+  walk_forward_window_days: 60    # valid: 30–120; size of each walk-forward fold
+
+  # Probability calibration tolerance
+  calibration_slope_tolerance: 0.20  # valid: 0.10–0.30; Platt scaling slope deviation threshold
+
+  # LightGBM hyperparameters (conservative to prevent overfit on small samples)
+  lgbm_max_depth: 4               # valid: 2–6
+  lgbm_num_leaves: 15             # valid: 8–31
+  lgbm_min_data_in_leaf: 100      # valid: 50–200
+  lgbm_learning_rate: 0.01        # valid: 0.005–0.05

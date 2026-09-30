@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+pip-wheel-metadata/
+.venv/
+venv/
+env/
+
+# Testing & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# SQLite databases
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Schwab token files
+token.json
+schwab_token.json
+*.token
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Config with secrets (use .env for secrets, not config)
+secrets.yaml
+
+# Alembic
+alembic/versions/*.pyc
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Norgate
+norgatedata_cache/
+
+# Runtime data cache (API responses; regenerated on demand — must not be tracked)
+.cache/
+
+# Generated backtest / audit artifacts (large, fully regenerable)
+backtest_*.csv
+audit_extreme_returns*.csv
+
+# Misc
+*.bak
+scratch/
+crsp_pull/

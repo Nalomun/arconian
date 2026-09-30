@@ -1,0 +1,21 @@
+@page { size: Letter; margin: 22mm 20mm 22mm 20mm; }
+html { font-size: 10.5pt; }
+body { font-family: system-ui, -apple-system, "Segoe UI", "Liberation Sans", sans-serif; color: #0b0b0b; line-height: 1.45; max-width: 100%; margin: 0; }
+h1 { font-size: 20pt; line-height: 1.2; margin: 0 0 4pt 0; }
+h1 + p em { color: #52514e; }
+h2 { font-size: 14pt; margin: 20pt 0 6pt 0; page-break-after: avoid; border-bottom: 1px solid #e1e0d9; padding-bottom: 3pt; }
+p { margin: 0 0 8pt 0; text-align: left; }
+table { border-collapse: collapse; width: 100%; margin: 8pt 0 12pt 0; font-size: 9.5pt; page-break-inside: auto; }
+tr { page-break-inside: avoid; }
+thead { display: table-header-group; }
+th, td { border-bottom: 1px solid #e1e0d9; padding: 3pt 6pt; vertical-align: top; text-align: left; }
+th { font-weight: 600; border-bottom: 1px solid #c3c2b7; }
+col[style] { width: auto !important; }
+table { table-layout: auto; }
+img { display: block; max-width: 84%; height: auto; margin: 10pt auto 12pt auto; page-break-inside: avoid; }
+figure { margin: 0; }
+figcaption { display: none; }
+code { font-family: "Liberation Mono", monospace; font-size: 9pt; background: #f3f2ef; padding: 0 2pt; }
+pre { background: #f3f2ef; padding: 6pt 8pt; font-size: 9pt; white-space: pre-wrap; word-break: break-all; }
+hr { border: 0; border-top: 1px solid #c3c2b7; margin: 18pt 0; }
+strong { font-weight: 600; }

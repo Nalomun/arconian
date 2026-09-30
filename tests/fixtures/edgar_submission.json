@@ -1,0 +1,113 @@
+{
+  "cik": "0001418819",
+  "entityType": "operating",
+  "sic": "7372",
+  "sicDescription": "Prepackaged Software",
+  "name": "SoFi Technologies Inc",
+  "tickers": ["SOFI"],
+  "exchanges": ["NMS"],
+  "ein": "98-1547125",
+  "description": "",
+  "website": "https://www.sofi.com",
+  "category": "Large accelerated filer",
+  "fiscalYearEnd": "1231",
+  "stateOfIncorporation": "DE",
+  "phone": "855-456-7634",
+  "flags": "",
+  "addresses": {
+    "mailing": {
+      "street1": "234 1st Street",
+      "city": "San Francisco",
+      "stateOrCountry": "CA",
+      "zipCode": "94105"
+    }
+  },
+  "filings": {
+    "recent": {
+      "accessionNumber": [
+        "0001418819-24-000010",
+        "0001418819-24-000007",
+        "0001418819-23-000042",
+        "0001418819-23-000038"
+      ],
+      "filingDate": [
+        "2024-01-08",
+        "2024-01-03",
+        "2023-11-15",
+        "2023-10-28"
+      ],
+      "reportDate": [
+        "",
+        "",
+        "2023-09-30",
+        ""
+      ],
+      "acceptanceDateTime": [
+        "2024-01-08T16:30:00.000Z",
+        "2024-01-03T08:42:00.000Z",
+        "2023-11-15T21:10:00.000Z",
+        "2023-10-28T12:00:00.000Z"
+      ],
+      "act": [
+        "34",
+        "34",
+        "34",
+        "33"
+      ],
+      "form": [
+        "8-K",
+        "8-K",
+        "10-Q",
+        "S-3"
+      ],
+      "fileNumber": [
+        "001-39606",
+        "001-39606",
+        "001-39606",
+        "333-279100"
+      ],
+      "filmNumber": [
+        "24510225",
+        "24504000",
+        "231388127",
+        ""
+      ],
+      "items": [
+        "5.02",
+        "2.02,9.01",
+        "",
+        ""
+      ],
+      "size": [
+        52341,
+        78923,
+        2341567,
+        489231
+      ],
+      "isXBRL": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "isInlineXBRL": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "primaryDocument": [
+        "sofi-20240108.htm",
+        "sofi-20240103.htm",
+        "sofi-20230930.htm",
+        "s3-20231028.htm"
+      ],
+      "primaryDocDescription": [
+        "8-K",
+        "8-K",
+        "10-Q",
+        "S-3"
+      ]
+    }
+  }
+}

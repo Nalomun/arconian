@@ -1,0 +1,6 @@
+score,pooled_ic,between_day,within_day
+composite,0.01313,0.01268,0.00045
+volume,0.01627,0.01042,0.00585
+return_mag,0.01341,0.01381,-0.00040
+sector_rs,0.00285,0.00265,0.00020
+delay,-0.02433,-0.00013,-0.02420
