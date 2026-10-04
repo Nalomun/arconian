@@ -2,6 +2,8 @@
 
 Arconian is a rule-based system I designed and built in 2026 to trade short-term drift in U.S. small-cap stocks with slow information diffusion, using a five-signal composite score and a 1–3 day holding period. A backtest suggested a weak but real signal, but per-day cross-sectional tests showed the composite does not rank stocks, either against raw returns or, in a pre-registered test, against returns signed by the direction of the day's move.
 
+This repository is a public snapshot of private work. Arconian is the third iteration of Zinnia, a private project I started in April 2025.
+
 **Status: closed. Null result.** The daemon hasn't run since June 2026, and no live orders were ever placed.
 
 ## Start here
@@ -42,6 +44,10 @@ The suite needs no credentials, network access or market data: every external de
 
 The research scripts need `pip install -e ".[research]"` plus the licensed inputs described below. Running the daemon itself needs Schwab API credentials in `.env` (see `.env.example`); it is not maintained.
 
+## What the tests do and don't show
+
+The 491 tests check that the code does what the design says. They cover the signals, the composite score, the risk arithmetic, the paper-trade state machine and the scheduler, all on inputs I constructed. Every outside dependency is mocked, and the suite passes with networking disabled. So the tests say nothing about whether the numbers are right on real market data, or whether the adapters handle what the vendors actually return.
+
 ## Data notice
 
 **No vendor data is included in this repository.** The project used:
@@ -53,7 +59,7 @@ The research scripts need `pip install -e ".[research]"` plus the licensed input
 
 What is included are derived aggregates: per-day information-coefficient series, decile spreads and summary tables. None of them contains per-stock values.
 
-Commit hashes cited in the writeup and in the project history refer to my private development repository; this repository is a snapshot of it. The pre-registration of the signed-return test was committed there on its own as commit `daf7354`, before any result was computed. The published file is byte-identical: its git blob hash is `a1812569fe85b9b76bc0209eac3478d6581ac004`, which you can check with `git hash-object analysis/signed_test_preregistration.md`.
+Commit hashes cited in the writeup and in the project history refer to my private development repository; this repository is a snapshot of it. The pre-registration of the signed-return test was committed there on its own as commit `daf7354`, before any result on the matched sample was computed (the raw-return results of the first test had already been seen). The published file is byte-identical: its git blob hash is `a1812569fe85b9b76bc0209eac3478d6581ac004`, which you can check with `git hash-object analysis/signed_test_preregistration.md`.
 
 Nothing here is investment advice.
 
